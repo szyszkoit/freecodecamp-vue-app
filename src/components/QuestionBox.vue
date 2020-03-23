@@ -7,7 +7,12 @@
 
     <hr class="my-4">
     <b-list-group>
-      <b-list-group-item v-for = "(answer, index) in answers" :key="index">
+      <b-list-group-item
+        v-for = "(answer, index) in answers"
+        :key="index"
+        @click="selectAnswer(index)"
+        :class="[selectedIndex === index ? 'selected' : '']"
+        >
         {{answer}}
       </b-list-group-item>
     </b-list-group>
@@ -22,6 +27,17 @@
     props: {
       currentQuestion: Object,
       next: Function
+    },
+    data() {
+      return {
+        selectedIndex: null,
+      }
+    },
+    methods: {
+      selectAnswer(index) {
+        this.selectedIndex = index;
+        console.log(index);
+      },
     },
     computed: {
       answers() {
@@ -42,5 +58,14 @@
   }
   .btn {
     margin: 0 5px;
+  }
+  .selected {
+    background-color: lightblue;
+  }
+  .correct {
+    background-color: lightgreen;
+  }
+  .incorrect {
+    background-color: red;
   }
 </style>
