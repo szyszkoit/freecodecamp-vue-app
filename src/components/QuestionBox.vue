@@ -11,12 +11,11 @@
         v-for = "(answer, index) in shuffledAnswers"
         :key="index"
         @click="selectAnswer(index)"
-        :class="[selectedIndex === index ? 'selected' : '']"
+        :class="answerClass(index)"
         >
         {{answer}}
       </b-list-group-item>
     </b-list-group>
-
     <b-button
     @click="submitAnswer"
     variant="primary"
@@ -78,6 +77,20 @@ import _ from 'lodash';
         this.shuffledAnswers = _.shuffle(answers)
         this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
       },
+      answerClass(index) {
+        let answerClass;
+        if (!this.answered && this.selectedIndex === index) {
+          answerClass = 'selected'
+        } else if (this.answered && this.correctIndex === index) {
+          answerClass = 'correct'
+        } else if (this.answered
+         && this.selectedIndex === index
+         && this.correctIndex !== index)
+         {
+          answerClass = 'incorrect'
+         }
+          return answerClass;
+      }
     },
     computed: {
       answers() {
